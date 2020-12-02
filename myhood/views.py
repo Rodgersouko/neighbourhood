@@ -7,6 +7,8 @@ from django.contrib.auth import authenticate, login, logout
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.views import LoginView as KnoxLoginView
 from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 from django.contrib.auth.decorators import login_required
 from knox import views as knox_views
 from .serializers import *
