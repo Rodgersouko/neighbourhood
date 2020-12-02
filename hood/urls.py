@@ -18,7 +18,7 @@ from django.urls import path,include
 
 urlpatterns = [
     path('', include('myhood.urls')),
-    path('', include('myhood.urls')),
+    path('api', include('myhood.urls')),
     path('admin/', admin.site.urls),
     path('api/auth/', include('knox.urls'))
 ]
