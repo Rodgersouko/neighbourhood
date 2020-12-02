@@ -49,5 +49,8 @@ class LoginUserSerializer(generics.GenericAPIView):
         }
         return Response(context)
 
-
+class UserSerializer(viewsets.ModelViewSet):
+    # api endpoint that allows users to be viewed or edited
+    queryset = User.objects.all().order_by()
+    serializer_class = UserSerializer
     
