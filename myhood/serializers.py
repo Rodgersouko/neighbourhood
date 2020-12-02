@@ -2,6 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
+
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -14,10 +15,12 @@ class CreateUserSerializer(serializers.ModelSerializer):
                                         validated_data['password'])
         return user
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username')
+
 
 class LoginUserSerializer(serializers.Serializer):
     username = serializers.CharField()
