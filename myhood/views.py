@@ -35,4 +35,19 @@ class CreateUserSerializer(generics.GenericAPIView):
         }
         return Response(context)
 
+class LoginUserSerializer(generics.GenericAPIView):
+    serializer_class = LoginSerializer
+    permission_classes = (AllowAny,)
+    
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data
+        context = {
+            "user": serializer.data,
+            "token": AuthToken.objects.create(user)[1]
+        }
+        return Response(context)
+
+
     
