@@ -34,8 +34,6 @@ class Profile(models.Model):
         instance.profile.save()
 
 
-
-
 class Business(models.Model):
     name = models.CharField(max_length=250)
     description = models.TextField()
@@ -57,21 +55,3 @@ class Business(models.Model):
 
 
 
-class Post(models.Model):
-    title = models.CharField(max_length=250)
-    content = models.TextField(max_length=250)
-    tag = models.CharField(max_length=250)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    hood = models.ForeignKey('hood', on_delete=models.CASCADE, related_name='hoods', default=1)
-
-    class Meta:
-        db_table = 'posts'
-        ordering = ['-title']
-
-    def __repr__(self):
-        return f'{self.title}'
-
-    @classmethod
-    def search_posts(cls, searchTerm):
-        posts = cls.objects.filter(title__icontains=searchTerm)
-        return posts
