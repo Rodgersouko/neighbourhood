@@ -23,8 +23,8 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
         [reset_password_token.user.email]
     )
 
-class Hood(models.Model):
-    Name = models.CharField(max_length=32)
-    location = models.CharField(max_length=150)
-    Count = models.IntegerField()
-    Foreignkey = models.IntegerField()
+# class Hood(models.Model):
+#     Name = models.CharField(max_length=32)
+#     location = models.CharField(max_length=150)
+#     Count = models.IntegerField()
+#     Foreignkey = models.IntegerField()
