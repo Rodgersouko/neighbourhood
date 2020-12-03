@@ -8,9 +8,10 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.views import LoginView as KnoxLoginView
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status,viewsets
 from django.contrib.auth.decorators import login_required
 from knox import views as knox_views
+from rest_framework.permissions import AllowAny
 from .serializers import *
 
 # Create your views here.
@@ -21,7 +22,7 @@ from .serializers import *
 # CreateUserSerializerAPI
 
 class CreateUserSerializer(generics.GenericAPIView):
-    serializer_class = RegisterSerializer
+    serializer_class = CreateUserSerializer
     permission_classes = (AllowAny,)
 
     def post(self, request, *args, **kwargs):
@@ -38,7 +39,7 @@ class CreateUserSerializer(generics.GenericAPIView):
         return Response(context)
 
 class LoginUserSerializer(generics.GenericAPIView):
-    serializer_class = LoginSerializer
+    serializer_class = LoginUserSerializer
     permission_classes = (AllowAny,)
     
     def post(self, request, *args, **kwargs):
