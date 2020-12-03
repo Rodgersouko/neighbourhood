@@ -1,18 +1,8 @@
-from django.shortcuts import render,redirect,get_object_or_404
-from django.http import HttpResponse
-from django.contrib.auth.models import User
-from rest_framework.generics import GenericAPIView
-from rest_framework import generics, permissions, status
-from django.contrib.auth import authenticate, login, logout
-from rest_framework.authtoken.serializers import AuthTokenSerializer
-from knox.views import LoginView as KnoxLoginView
-from rest_framework.views import APIView
+from rest_framework import viewsets, permissions, generics
 from rest_framework.response import Response
-from rest_framework import status,viewsets
-from django.contrib.auth.decorators import login_required
-from knox import views as knox_views
-from rest_framework.permissions import AllowAny
-from .serializers import *
+from knox.models import AuthToken
+from .serializers import CreateUserSerializer, UserSerializer
+from .serializers import CreateUserSerializer, UserSerializer, LoginUserSerializer
 
 # Create your views here.
 # def home(request):
@@ -21,39 +11,35 @@ from .serializers import *
 
 # CreateUserSerializerAPI
 
-class CreateUserSerializer(generics.GenericAPIView):
+class RegistrationAPI(generics.GenericAPIView):
     serializer_class = CreateUserSerializer
-    permission_classes = (AllowAny,)
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
-        user = serializer.data
-        # user = request.user
-        context = {
-            "user": serializer.data,
-            "status": status.HTTP_201_CREATED,
+        user = serializer.save()
+        return Response({
+            "user": UserSerializer(user, context=self.get_serializer_context()).data,
             "token": AuthToken.objects.create(user)[1]
-        }
-        return Response(context)
+        })
 
-class LoginUserSerializer(generics.GenericAPIView):
+class LoginAPI(generics.GenericAPIView):
     serializer_class = LoginUserSerializer
-    permission_classes = (AllowAny,)
-    
+
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data
-        context = {
-            "user": serializer.data,
+        return Response({
+            "user": UserSerializer(user, context=self.get_serializer_context()).data,
             "token": AuthToken.objects.create(user)[1]
-        }
-        return Response(context)
-
-class UserSerializer(viewsets.ModelViewSet):
-    # api endpoint that allows users to be viewed or edited
-    queryset = User.objects.all().order_by()
+        })
+        
+#userAPI to shows the user data when the user successfully logs in
+class UserAPI(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated, ]
     serializer_class = UserSerializer
+
+    def get_object(self):
+        return self.request.user
     

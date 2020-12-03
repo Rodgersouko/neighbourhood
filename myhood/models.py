@@ -6,15 +6,15 @@ from django.dispatch import receiver
 
 class Profile(models.Model):
     name = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    profile_pic = models.ImageField(upload_to='#', blank=True,)
+    profile_pic = models.ImageField(upload_to='profile_pic', blank=True,)
     age = models.IntegerField(null=True)
     contact = models.CharField(max_length=250)
     address = models.CharField(max_length=250)
-    estate = models.ForeignKey('hood', on_delete=models.CASCADE, blank=True, null=True)
+    estate = models.ForeignKey('Hood', on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
         db_table = 'profiles'
-        ordering = ['name']
+        ordering = ['-name']
 
     def __repr__(self):
         return f'{self.name}'
@@ -58,7 +58,7 @@ class Post(models.Model):
     content = models.TextField(max_length=250)
     tag = models.CharField(max_length=250)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    hood = models.ForeignKey('hood', on_delete=models.CASCADE, related_name='hoods', default=1)
+    hood = models.ForeignKey('Hood', on_delete=models.CASCADE, related_name='hoods', default=1)
 
     class Meta:
         db_table = 'posts'
@@ -71,3 +71,28 @@ class Post(models.Model):
     def search_posts(cls, searchTerm):
         posts = cls.objects.filter(title__icontains=searchTerm)
         return posts
+
+class Hood(models.Model):
+    Name = models.CharField(max_length=32)
+    location = models.CharField(max_length=150)
+    Count = models.IntegerField()
+    Foreignkey = models.IntegerField()
+    class Meta:
+        db_table = 'Hood'
+        ordering = ['-Name']
+
+    def __repr__(self):
+        return f'{self.name}'
+
+    def __str__(self):
+        return f"{self.name}"
+
+    @classmethod
+    def search_hood(cls, searchTerm):
+        hoods = cls.objects.filter(name__icontains=searchTerm)
+        return hoods
+
+    @classmethod
+    def search_by_title(cls, search_term):
+        hoods = cls.objects.filter(name__icontains=search_term)
+        return hoods
