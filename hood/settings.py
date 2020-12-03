@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'knox'
+    'knox',
+    'myhood',
+    'django_rest_passwordreset',
 ]
 
 MIDDLEWARE = [
@@ -120,3 +122,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',),
+}
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
