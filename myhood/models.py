@@ -1,6 +1,3 @@
-from django.db import models
-
-# Create your models here.
 from django.dispatch import receiver
 from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created
@@ -22,9 +19,3 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
         # to:
         [reset_password_token.user.email]
     )
-
-# class Hood(models.Model):
-#     Name = models.CharField(max_length=32)
-#     location = models.CharField(max_length=150)
-#     Count = models.IntegerField()
-#     Foreignkey = models.IntegerField()
