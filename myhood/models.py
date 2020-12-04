@@ -4,6 +4,12 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django_rest_passwordreset.signals import reset_password_token_created
 
+from django.dispatch import receiver
+from django.urls import reverse
+from django_rest_passwordreset.signals import reset_password_token_created
+from django.core.mail import send_mail  
+
+
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
 
@@ -112,3 +118,4 @@ class Hood(models.Model):
     def search_by_title(cls, search_term):
         hoods = cls.objects.filter(name__icontains=search_term)
         return hoods
+

@@ -16,6 +16,23 @@ from rest_framework.views import APIView
 # Create your views here.
 
 
+
+# Create your views here.
+def home(request):
+    return HttpResponse("Hello world")
+
+#from rest_framework import generics, permissions
+#from rest_framework.response import Response
+#from knox.models import AuthToken
+#from .serializers import UserSerializer, RegisterSerializer, ChangePasswordSerializer
+#from django.contrib.auth import login
+#from rest_framework import permissions
+#from rest_framework.authtoken.serializers import AuthTokenSerializer
+#from knox.views import LoginView as KnoxLoginView
+from rest_framework import status
+#from django.contrib.auth.models import User
+#from rest_framework.permissions import IsAuthenticated
+
 # Register API
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
@@ -74,5 +91,3 @@ class ChangePasswordView(generics.UpdateAPIView):
             return Response(response)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-

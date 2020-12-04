@@ -2,6 +2,12 @@ from rest_framework import generics, permissions, serializers, exceptions
 from django.contrib.auth.models import User
 from .models import  Hood,Profile,Business,Post
 
+
+# Register Serializer
+# class RegisterSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User
+
 # User Serializer
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -48,3 +54,6 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ['id', 'title', 'content','owner','hood']
+        # return user
+
+
