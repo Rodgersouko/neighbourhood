@@ -1,15 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-
-
-# Create your views here.
-def home(request):
-    return HttpResponse("Hello world")
-
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from knox.models import AuthToken
-from .serializers import UserSerializer, RegisterSerializer, ChangePasswordSerializer
+from .serializers import UserSerializer, RegisterSerializer, ChangePasswordSerializer,ProfileSerializer
 from django.contrib.auth import login
 from rest_framework import permissions
 from rest_framework.authtoken.serializers import AuthTokenSerializer
@@ -17,10 +11,32 @@ from knox.views import LoginView as KnoxLoginView
 from rest_framework import status
 from django.contrib.auth.models import User
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny
+from rest_framework.views import APIView
+# Create your views here.
+
+
+
+# Create your views here.
+def home(request):
+    return HttpResponse("Hello world")
+
+#from rest_framework import generics, permissions
+#from rest_framework.response import Response
+#from knox.models import AuthToken
+#from .serializers import UserSerializer, RegisterSerializer, ChangePasswordSerializer
+#from django.contrib.auth import login
+#from rest_framework import permissions
+#from rest_framework.authtoken.serializers import AuthTokenSerializer
+#from knox.views import LoginView as KnoxLoginView
+from rest_framework import status
+#from django.contrib.auth.models import User
+#from rest_framework.permissions import IsAuthenticated
 
 # Register API
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
+    permission_classes = (AllowAny,)
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
