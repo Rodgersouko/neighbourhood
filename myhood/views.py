@@ -76,3 +76,73 @@ class ChangePasswordView(generics.UpdateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
+##########################################
+class HoodList(APIView):
+
+    @permission_decorator([permissions.AllowAny])
+    def get(self,request,format = None):
+        all_hoods = Neighbourhood.objects.all()
+        serializerdata = HoodSerializer(all_hoods,many = True)
+        return Response(serializerdata.data)
+
+class HoodViewset(mixins.CreateModelMixin,
+                  mixins.RetrieveModelMixin,
+                  mixins.UpdateModelMixin,
+                  viewsets.GenericViewSet):
+
+    queryset = Neighbourhood.objects.all()
+    serializer_class = HoodSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    @action(detail=False, methods=['GET'])
+    @permission_decorator([permissions.AllowAny])
+    def hoods(self, *args, **kwargs):
+        # self.get_permissions = [permissions.AllowAny]
+        queryset = Neighbourhood.objects.all()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['GET'])
+    def view_hood(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+    
+
+class PostList(APIView):
+
+    def post(self, request, format=None):
+        serializers = PostSerializer(data=request.data)
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.data, status=status.HTTP_201_CREATED)
+        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST) 
+
+
+class viewPosts(APIView):
+
+    # @permission_decorator([permissions.AllowAny])
+    def get(self,request,format = None):
+        all_posts = Post.objects.all()
+        serializerdata = PostSerializer(all_posts,many = True)
+        return Response(serializerdata.data)       
+
+class ProfileList(APIView):
+    permission_classes = (IsAdminOrReadOnly,)
+
+
+    def get_profile(self, pk):
+        try:
+            return Profile.objects.get(pk=pk)
+        except Profile.DoesNotExist:
+            return Http404
+
+    def patch(self, request, pk, format=None):
+        profile = self.get_profile(pk)
+        serializers = ProfileSerializer(profile, request.data)
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.data)
+        else:
+            return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
