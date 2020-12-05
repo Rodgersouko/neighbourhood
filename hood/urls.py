@@ -21,4 +21,7 @@ urlpatterns = [
     path('api', include('myhood.urls')),
     path('admin/', admin.site.urls),
     path('api/auth/', include('knox.urls'))
+    
 ]
+
+

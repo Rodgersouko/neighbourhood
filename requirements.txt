@@ -1,0 +1,13 @@
+asgiref==3.3.1
+cffi==1.14.4
+cryptography==3.2.1
+Django==3.1.4
+django-rest-knox==4.1.0
+django-rest-passwordreset==1.1.0
+djangorestframework==3.12.2
+mysqlclient==2.0.1
+Pillow==8.0.1
+pycparser==2.20
+pytz==2020.4
+six==1.15.0
+sqlparse==0.4.1
