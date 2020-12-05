@@ -23,3 +23,5 @@ urlpatterns = [
     path('api/auth/', include('knox.urls'))
     
 ]
+
+
