@@ -18,19 +18,8 @@ from . models import *
 
 
 def home(request):
-    return HttpResponse("Hello world its neighbouhood")
+    return HttpResponse("WELCOME TO MY HOOD......")
 
-#from rest_framework import generics, permissions
-#from rest_framework.response import Response
-#from knox.models import AuthToken
-#from .serializers import UserSerializer, RegisterSerializer, ChangePasswordSerializer
-#from django.contrib.auth import login
-#from rest_framework import permissions
-#from rest_framework.authtoken.serializers import AuthTokenSerializer
-#from knox.views import LoginView as KnoxLoginView
-#from django.contrib.auth.models import User
-#from rest_framework.permissions import IsAuthenticated
-# Register API
 
 
 class RegisterAPI(generics.GenericAPIView):
